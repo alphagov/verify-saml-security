@@ -1,5 +1,6 @@
 package uk.gov.ida.saml.security.validators.signature;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.opensaml.core.xml.config.XMLObjectProviderRegistrySupport;
@@ -17,11 +18,19 @@ import static org.mockito.Mockito.when;
 @RunWith(OpenSAMLMockitoRunner.class)
 public class SamlRequestSignatureValidatorTest {
 
-    @Test
-    public void validate_shouldDoNothingIfAuthnRequestSignatureIsValid() throws Exception {
-        SamlMessageSignatureValidator samlMessageSignatureValidator = mock(SamlMessageSignatureValidator.class);
+    private SamlMessageSignatureValidator samlMessageSignatureValidator;
+    private SamlRequestSignatureValidator<AuthnRequest> requestSignatureValidator;
+    private AuthnRequest authnRequest;
 
-        SamlRequestSignatureValidator<AuthnRequest> requestSignatureValidator = new SamlRequestSignatureValidator<>(samlMessageSignatureValidator);
+    @Before
+    public void setUp() throws Exception {
+        samlMessageSignatureValidator = mock(SamlMessageSignatureValidator.class);
+        requestSignatureValidator = new SamlRequestSignatureValidator<>(samlMessageSignatureValidator);
+        authnRequest = mock(AuthnRequest.class);
+    }
+
+    @Test
+    public void validate_shouldDoNothingIfAuthnRequestSignatureIsValid() {
 
         AuthnRequest authnRequest = (AuthnRequest) XMLObjectProviderRegistrySupport.getBuilderFactory().getBuilder(AuthnRequest.DEFAULT_ELEMENT_NAME).buildObject(AuthnRequest.DEFAULT_ELEMENT_NAME);
         String issuerId = "some issuer";

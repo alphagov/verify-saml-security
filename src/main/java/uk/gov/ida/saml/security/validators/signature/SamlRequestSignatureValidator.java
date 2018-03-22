@@ -22,9 +22,7 @@ public class SamlRequestSignatureValidator<T extends RequestAbstractType> {
         SamlValidationResponse samlValidationResponse = samlMessageSignatureValidator.validate(samlMessage, role);
         if( !samlValidationResponse.isOK()) {
             SamlValidationSpecificationFailure failure = samlValidationResponse.getSamlValidationSpecificationFailure();
-            if (samlValidationResponse.getCause() != null)
-                throw new SamlTransformationErrorException(failure.getErrorMessage(), samlValidationResponse.getCause(), failure.getLogLevel());
-            throw new SamlTransformationErrorException(failure.getErrorMessage(), failure.getLogLevel());
+            throw new SamlTransformationErrorException(failure.getErrorMessage(), samlValidationResponse.getCause(), failure.getLogLevel());
         }
     }
 }
